@@ -1,0 +1,32 @@
+{% extends "base.html" %} {% block title %}Math Quiz{% endblock %} {% block
+    content %}
+    <h1>Math Quiz Results</h1>
+          <table border="2" align="left" class="fixed">
+            <col width="300" />
+            <col width="200" />
+            <col width="100" />
+            <tr>
+              <th style="padding: 10px"><h2> YOUR SCORE: {{ userScore }}</h2></th>
+              <th style="padding: 10px"><h2> </h2></th>
+              <th style="padding: 10px"><h2> Status </h2></th>
+            </tr>
+            
+            {% for question, answer, result in questionBank %}
+            <tr>
+              <td style="padding: 10px"><h3>{{ question[0] }} {{ question[2] }} {{ question[1] }} = </h3></td>
+              <td style="padding: 10px"><h3>{{ answer }}</h3></td>
+              <td style="padding: 10px"><h3>{{ result }}</h3></td>
+            </tr>    
+            {% endfor %}
+            
+            <tr>
+                <td align="center" style="padding: 10px"><h3> GOOD JOB!!! </h3></td></td>
+                <td align="center" style="padding: 10px"><form method="get" action="/mathquiz">
+                    <button type="submit" class="btn btn-primary">START OVER</button>
+                </form></td>
+            </tr>
+        
+        </table>
+          
+    {% endblock%}
+    

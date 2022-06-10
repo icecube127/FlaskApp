@@ -1,0 +1,66 @@
+{% extends "base.html" %} {% block title %}Math Quiz{% endblock %} {% block
+content %}
+<h1>Math Quiz</h1>
+
+{% if questionBank %} 
+    <form method="POST">
+      <table border="2" align="left" class="fixed">
+        <col width="300" />
+        <col width="200" />
+        <tr>
+          <th style="padding: 10px"><h2> Question</h2></th>
+          <th style="padding: 10px"><h2> Answer</h2></th>
+        </tr>
+        
+        {% for question in questionBank %}
+        <tr>
+          <td style="padding: 10px"><h3>{{ question[0] }} {{ question[2] }} {{ question[1] }} = </h3></td>
+          <td style="padding: 10px"><div class="form-group"><input
+            type="number"
+            class="form-control"
+            id="answer{{question[3]}}"
+            name="answer{{question[3]}}"
+            required="required"
+          /></div></td>
+        </tr>    
+        {% endfor %}
+        <tr>
+            <td style="padding: 10px"><h3> GOOD LUCK!!! </h3></td></td>
+            <input type="hidden" id="allQuestions" name="allQuestions" value="{{questionBank}}">
+            <td style="padding: 10px"><button type="submit" class="btn btn-primary">CHECK SCORE</button></td>
+        </tr>
+      </table>
+    </form>
+
+{% else %}
+<form method="POST">
+  
+  <div class="form-group">
+    <h4>Type of Questions</h4>
+    <select name="operatorType">
+      <option value="" selected hidden>
+        -- Choose Your Challenge --
+      </option>
+      <option value="+">Addition</option>
+      <option value="-">Subtraction</option>
+      <option value="*">Multilpication</option>
+      <option value="/">Division</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <h4>How Many Questions</h4>
+    <select name="numQuestion">
+      <option value="" selected hidden>-- Choose Your Level --</option>
+      <option value="5">5 Questions</option>
+      <option value="10">10 Questions</option>
+      <option value="20">20 Questions</option>
+      <option value="30">30 Questions</option>
+    </select>
+  </div>
+
+  <input type="submit" value="Submit" class="btn btn-primary" />
+</form>
+{% endif %}
+
+{% endblock%}
