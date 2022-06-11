@@ -1,4 +1,3 @@
-from nturl2path import url2pathname
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from os import path
