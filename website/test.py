@@ -2,7 +2,6 @@ from flask import Blueprint, render_template, request, flash
 from flask_login import login_required, current_user
 import math
 from random import randint, random
-from numpy import empty
 
 test = Blueprint('test', __name__)
 
