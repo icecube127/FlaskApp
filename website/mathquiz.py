@@ -4,13 +4,19 @@ import math
 from random import randint, random
 from numpy import empty
 
-def generateQuestion(operator):
+def generateQuestion(operator, question_level):
+    # question_level: 1 is easiest, 3 is hardest. 
     # addition is 3-4 digits
     if operator == '+':
-        x = randint(100, 9999)
-        y = randint(100, 9999)
-        #x = randint(1, 9)
-        #y = randint(1, 9)
+        if question_level == 1:
+            x = randint(1, 9)
+            y = randint(1, 9)    
+        elif question_level == 2:
+            x = randint(10, 99)
+            y = randint(10, 99)
+        else:    
+            x = randint(100, 9999)
+            y = randint(100, 9999)
         question = []
         question.append(x)
         question.append(y)
@@ -20,10 +26,19 @@ def generateQuestion(operator):
     
     # subtraction is 3-4 digits
     elif operator == '-':
-        y = randint(100, 4999)
-        x = 0
-        while x < y:
-            x = randint(1000, 9999)
+        if question_level == 1:
+            x = randint(5, 10)
+            y = randint(1, 5)            
+        elif question_level == 2:
+            y = randint(1, 60)
+            x = 0
+            while x < y:
+                x = randint(30, 100)
+        else:
+            y = randint(100, 4999)
+            x = 0
+            while x < y:
+                x = randint(1000, 9999)
         question = []
         question.append(x)
         question.append(y)
@@ -32,10 +47,15 @@ def generateQuestion(operator):
         return question
     # mutlipication are 3 and then 2 digits
     elif operator == '*':
-        y = randint(11, 99)
-        x = 0
-        while x < y:
+        if question_level == 1:
+            x = randint(1, 10)
+            y = randint(1, 10)
+        elif question_level == 1:
+            x = randint(10, 99)
+            y = randint(10, 99)
+        else:
             x = randint(100, 999)
+            y = randint(11, 99)
         question = []
         question.append(x)
         question.append(y)
@@ -44,11 +64,21 @@ def generateQuestion(operator):
     
     # division are 3 and then 1 digits
     elif operator == '/':
-        x = randint(100, 999)
-        y = randint(2, 9)
-        
-        while x%y != 0:
+        if question_level == 1:
+            x = randint(4, 10)
+            y = randint(1, 3)
+            while x%y != 0:
+                x = randint(4, 10)
+        elif question_level == 2:
+            x = randint(50, 100)
+            y = randint(2, 9)
+            while x%y != 0:
+                x = randint(50, 100)
+        else:
             x = randint(100, 999)
+            y = randint(2, 9)
+            while x%y != 0:
+                x = randint(100, 999)
         question = []
         question.append(x)
         question.append(y)
@@ -108,16 +138,17 @@ def QuizMe():
     if request.method == 'POST' and "operatorType" in request.form:
         operator = request.form.get('operatorType')
         number_of_questions = request.form.get('numQuestion')
+        question_level = int(request.form.get('level'))
         question_bank = []
         question_ID = 0
 
-        if not operator or not number_of_questions:
+        if not operator or not number_of_questions or not question_level:
             flash("Please make a valid selection.")
             return render_template("mathquiz.html", user=current_user)
         else:
             number_of_questions = int(number_of_questions)
             for i in range(number_of_questions):
-                question = generateQuestion(operator)
+                question = generateQuestion(operator, question_level)
                 question.append(question_ID)
                 question_bank.append(question)
                 question_ID+=1
